@@ -38,9 +38,7 @@ class MethodChannelJitsiMeetWrapper extends JitsiMeetWrapperPlatformInterface {
       'configOverrides': options.configOverrides,
     };
 
-    return await _methodChannel
-        .invokeMethod<String>('joinMeeting', _options)
-        .then((message) {
+    return await _methodChannel.invokeMethod<String>('joinMeeting', _options).then((message) {
       return JitsiMeetingResponse(isSuccess: true, message: message);
     }).catchError((error) {
       return JitsiMeetingResponse(
@@ -56,9 +54,7 @@ class MethodChannelJitsiMeetWrapper extends JitsiMeetWrapperPlatformInterface {
     Map<String, dynamic> _options = {
       'isMuted': isMuted,
     };
-    return await _methodChannel
-        .invokeMethod<String>('setAudioMuted', _options)
-        .then((message) {
+    return await _methodChannel.invokeMethod<String>('setAudioMuted', _options).then((message) {
       return JitsiMeetingResponse(isSuccess: true, message: message);
     }).catchError((error) {
       return JitsiMeetingResponse(
@@ -105,8 +101,7 @@ class MethodChannelJitsiMeetWrapper extends JitsiMeetWrapperPlatformInterface {
           _listener?.onVideoMutedChanged?.call(parseBool(data["muted"]));
           break;
         case "screenShareToggled":
-          _listener?.onScreenShareToggled
-              ?.call(data["participantId"], parseBool(data["sharing"]));
+          _listener?.onScreenShareToggled?.call(data["participantId"], parseBool(data["sharing"]));
           break;
         case "participantJoined":
           _listener?.onParticipantJoined?.call(
@@ -236,6 +231,8 @@ class MethodChannelJitsiMeetWrapper extends JitsiMeetWrapperPlatformInterface {
         return 'video-mute.enabled';
       case FeatureFlag.isVideoShareButtonEnabled:
         return 'video-share.enabled';
+      case FeatureFlag.isPrejoinPageEnabled:
+        return 'prejoinpage.enabled';
     }
   }
 }
